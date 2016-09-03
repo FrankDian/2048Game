@@ -20,7 +20,7 @@ $(document).ready(function(){
 //
 function prepareForMobile(){
 	
-	if( documentWidth > 500 ){
+	if( documentWidth > 500 ){	//若屏宽大于500
 		gridContainerWidth = 500;
 		cellSideLength = 100 ;
 		cellSpace = 20 ;
@@ -45,6 +45,7 @@ function newGame(){
 	generateOneNumber();
 }
 
+//初始化4*4格子
 function init(){
 	for(var i=0; i<4;i++){
 		for(var j=0; j<4;j++){

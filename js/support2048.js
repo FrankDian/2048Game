@@ -1,17 +1,19 @@
-documentWidth = window.screen.availWidth;
-gridContainerWidth = documentWidth*0.92;
-cellSideLength = documentWidth*0.18;
-cellSpace =0.04 * documentWidth;
+documentWidth = window.screen.availWidth;	//当前空白处屏宽
+gridContainerWidth = documentWidth * 0.92;	//整个4*4格子容器的边长，当屏幕宽度小于500px时，取屏幕宽度的0.92
+cellSideLength = documentWidth * 0.18;		//格子边长
+cellSpace =documentWidth * 0.04;			//格子之间的空隙
 
-
+//获得格子距离格子容器的顶边距离
 function getPosTop(i,j){
-	return cellSpace + i*(cellSpace+cellSideLength);
+	return cellSpace + i * (cellSpace+cellSideLength);
 }
 
+//获得格子距离格子容器的左边距离
 function getPosLeft(i,j){
-	return cellSpace + j*(cellSpace+cellSideLength);
+	return cellSpace + j * (cellSpace+cellSideLength);
 }
 
+//给不同的数值的格子设置不同的颜色
 function getNumberBackgroundColor(number){
 	switch( number ){
         case 2:return "#eee4da";break;
