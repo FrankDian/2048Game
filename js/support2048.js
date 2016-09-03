@@ -118,5 +118,6 @@ function noBlockVertical(col,row1,row2,board){
 	for( var i = row1 + 1 ; i < row2 ; i++)
 		if(board[i][col]!=0 )
 			return false;
+			
 	return true;
 }

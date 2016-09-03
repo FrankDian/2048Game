@@ -12,9 +12,11 @@ header h1{
 header #newgamebutton{
 	display: block;
 	margin: 20px auto;
+	
 	width: 100px;
 	padding: 10px 10px;
 	background: #8f7a66;
+	
 	color: white;
 	font-family: arial;
 	text-decoration:none;
@@ -28,11 +30,13 @@ header p{
 	margin:20 auto;
 	font-size: 25px;
 	font-family: arial;
+	
 }
 #grid-container{
 	width: 460px;
 	height: 460px;
 	padding: 20px;
+	
 	margin: 50px auto;
 	background-color: #bbada0;
 	border-radius: 10px;
@@ -42,6 +46,7 @@ header p{
 	border-radius: 6px;
 	height: 100px;
 	width: 100px;
+	
 	background-color:#ccc0d3 ;
 	position: absolute;
 }
@@ -52,6 +57,7 @@ header p{
 	font-size: 60px;
 	text-align: center;
 	line-height: 100px;
+	
 	position: absolute;
 	
 }

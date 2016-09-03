@@ -13,6 +13,7 @@ $(document).ready(function(){
 	newGame();
 });
 
+//
 function prepareForMobile(){
 	
 	if( documentWidth > 500 ){
