@@ -3,7 +3,7 @@
  */
 var board= new Array();				//记录每个格子所对应的数字，二维数组
 var score=0;  						//分数
-var hasConflicted = new Array();
+var hasConflicted = new Array();	//记录每个格子的状态：在此回合中此格子是否已经融合过了
 
 //监控手机端的滑动
 var startx = 0;
@@ -64,10 +64,12 @@ function init(){
 		}
 	}
 	
-	updateBoardView();
+	updateBoardView();//更新视图
 	score = 0;
+	updateScore( score );//更新分数
 }
 
+//跟新视图中每个格子的数值
 function updateBoardView(){
 	$(".number-cell").remove();
 	for(var i=0; i<4;i++)
@@ -89,11 +91,21 @@ function updateBoardView(){
 				theNumberCell.css('color',getNumberColor(board[i][j]));
 				theNumberCell.text( board[i][j] );
 			}
-			
-			hasConflicted[i][j]=false;
+			hasConflicted[i][j]=false;//每次重置视图之后，设置此格子在新的一轮中能够融合
 		}
 	$(".number-cell").css("line-height",cellSideLength+'px');
 	$(".number-cell").css("font-size",0.6*cellSideLength+'px');
+	
+	/*
+	 * @author:FrankDian
+	 * @date : 2016/09/03
+	 * @修复达到1024后数字会溢出bug
+	 */
+	for(var i=0; i<4;i++)
+		for(var j=0; j<4;j++)
+			if( board[i][j]>=1024 )
+				$('#number-cell-'+i+'-'+j).css("font-size",0.4*cellSideLength+'px');
+		
 }
 
 //在随机空白格子生成一个数字2或者4
@@ -115,15 +127,7 @@ function generateOneNumber(){
 	
 	//在随机位置显示随机数字
 	board[randx][randy] = randNumber;
-	/*
-	 * @author :FrankDian
-	 * @date :2016/09/03
-	 * @description：测试随机生成数字的位置
-	 */
-	console.log(randx);
-	console.log(randy);
-	
-	
+	//动画显示新生成的数字
 	showNumberWithAnimation(randx,randy,randNumber);
 
 	return true;
@@ -214,9 +218,10 @@ document.addEventListener("touchend",function(event){
 	}
 });
 
-//判断是否gameOver
+//判断是否游戏结束
 function isGameOver(){
-	if(noSpace(board) && noMove(board) ){//没有空间了而且所有方块都不能和相邻的融合
+	//没有空间了而且所有方块都不能和相邻的融合
+	if(noSpace(board) && noMove(board) ){
 		gameOver();
 	}
 }
@@ -226,6 +231,7 @@ function gameOver(){
 	alert('Game Over!!!');
 }
 
+//左移事件
 function moveLeft(){
 	
 	if( !canMoveLeft(board) )
@@ -237,25 +243,25 @@ function moveLeft(){
 			if( board[i][j] != 0 ){
 				
 				for(var k = 0; k < j ; k ++){
-					if(board[i][k] == 0 && noBlockHorizontal( i , k , j , board )){ //如果左边全是空格
-						//move           
+					if(board[i][k] == 0 && noBlockHorizontal( i , k , j , board )){
+						//如果左边全是空格
+						//从(i,j)移到(i,k)          
                         showMoveAnimation( i , j , i , k );
                         board[i][k] = board[i][j];
                         board[i][j] = 0;
                         continue;
-                        
-					}
-					else if( board[i][k] == board[i][j] && noBlockHorizontal( i , k , j , board) && !hasConflicted[i][k] ){//如果左边是数值一样的格子
+					}else if( board[i][k] == board[i][j] && noBlockHorizontal( i , k , j , board) && !hasConflicted[i][k] ){
+						//如果左边是数值一样的格子,且这个格子在此回合没有被融合过，两个格子之间隔的全是空格
 						//move
 						showMoveAnimation( i , j , i, k );
-                        //add
+                        //数值融合
                         board[i][k] += board[i][j];
                         board[i][j] = 0;
-                        //add score
+                        //总分增加
                         score += board[i][k];
                         updateScore( score );
 
-                        hasConflicted[i][k] = true;
+                        hasConflicted[i][k] = true;//设置此回合此格子不能够再次融合了
 						continue;
 					}
 				}
@@ -266,6 +272,7 @@ function moveLeft(){
 	
 }
 
+//右移事件
 function moveRight(){
 	if( !canMoveRight( board ) )
         return false;
@@ -304,6 +311,7 @@ function moveRight(){
     return true;
 }
 
+//上移事件
 function moveUp(){
 
     if( !canMoveUp( board ) )
@@ -343,6 +351,7 @@ function moveUp(){
     return true;
 }
 
+//下移事件
 function moveDown(){
     if( !canMoveDown( board ) )
         return false;

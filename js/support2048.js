@@ -1,3 +1,7 @@
+/**
+ * Created by FrankDian on 2016/08/01
+ * @description 用来执行游戏中各种判断的工具函数文件
+ */
 documentWidth = window.screen.availWidth;	//当前空白处屏宽
 gridContainerWidth = documentWidth * 0.92;	//整个4*4格子容器的边长，当屏幕宽度小于500px时，取屏幕宽度的0.92
 cellSideLength = documentWidth * 0.18;		//格子边长
@@ -33,6 +37,7 @@ function getNumberBackgroundColor(number){
 	return "black";
 }
 
+//获得数字颜色
 function getNumberColor(number){
 	if( number <= 4)
 		return "#776e65";
@@ -54,9 +59,8 @@ function noMove( board ){
 		canMoveRight( board )||
 		canMoveUp( board )||
 		canMoveDown( board ))
-	return false;
-	
-	return true;
+	return false;//还能移动
+	return true;//不能移动
 }
 
 //判断是否能够左移
@@ -65,11 +69,11 @@ function canMoveLeft(board){
 	for (var i=0; i<4 ; i++) 
 		for(var j=1; j<4 ; j++)
 			if( board[i][j]!=0 )
-				if( board[i][j-1]==0 || board[i][j-1]==board[i][j] )//如果格子和左边的格子相同，或者左边有空格，则返回能够左移
+				if( board[i][j-1]==0 || board[i][j-1]==board[i][j] ){
+					//如果格子和左边的格子相同，或者左边有空格，则返回能够左移
 					return true;
-					
-	return false;
-	
+				}
+	return false;//不能左移
 }
 
 //判断是否能够右移
@@ -77,9 +81,10 @@ function canMoveRight(board){
 	for (var i=0; i<4 ; i++)
 		for(var j=2; j>=0 ; j--)
 			if( board[i][j]!=0 )
-				if( board[i][j+1] == 0 || board[i][j+1] == board[i][j] )//如果格子和右边的格子相同，或者右边有空格，则返回能够右移
+				if( board[i][j+1] == 0 || board[i][j+1] == board[i][j] ){
+					//如果格子和右边的格子相同，或者右边有空格，则返回能够右移
 					return true;
-					
+				}
 	return false;
 }
 
@@ -88,9 +93,10 @@ function canMoveUp(board){
 	for (var j = 0 ; j < 4 ; j++ ) 
 		for(var i = 1 ; i < 4 ; i++)
 			if( board[i][j] != 0 )
-				if( board[i-1][j] == 0 || board[i-1][j] == board[i][j] )//如果格子和上边的格子相同，或者上边有空格，则返回能够上移
+				if( board[i-1][j] == 0 || board[i-1][j] == board[i][j] ){
+					//如果格子和上边的格子相同，或者上边有空格，则返回能够上移
 					return true;
-	
+				}
 	return false;
 }
 
@@ -99,27 +105,27 @@ function canMoveDown(board){
 	for (var j = 0 ; j < 4 ; j++) 
 		for(var i = 2 ; i >= 0 ; i--)
 			if( board[i][j] != 0 )
-				if( board[i+1][j]==0 || board[i+1][j] == board[i][j] )//如果格子和下边的格子相同，或下边有空格，则返回能够下移
+				if( board[i+1][j]==0 || board[i+1][j] == board[i][j] ){
+					//如果格子和下边的格子相同，或下边有空格，则返回能够下移
 					return true;
-					
+				}
 	return false;
 }
 
 
-//判断水平方向两个块是否相同
+//判断第row行，第col1列和col2列两个块之间是否全为空格
 function noBlockHorizontal(row,col1,col2,board){
 	for( var i = col1 + 1 ; i < col2 ; i++ )
 		if(board[row][i] != 0 )
-			return false;
-	return true;
+			return false;//有障碍物
+	return true;	//全为空格
 	
 }
 
-//判断竖直方向两个块是否相同
+//判断第col列，第row1行和第row2行两个块之间是否全部为空格
 function noBlockVertical(col,row1,row2,board){
 	for( var i = row1 + 1 ; i < row2 ; i++)
 		if(board[i][col]!=0 )
-			return false;
-			
-	return true;
+			return false;//有障碍物
+	return true;//全部为空格
 }
