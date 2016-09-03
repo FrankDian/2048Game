@@ -1,9 +1,8 @@
 /**
  * Created by FrankDian on 2016/08/01
  */
-
-var board= new Array();
-var score=0;  //分数
+var board= new Array();				//记录每个格子所对应的数字，二维数组
+var score=0;  						//分数
 var hasConflicted = new Array();
 
 //监控手机端的滑动
@@ -13,17 +12,17 @@ var endx = 0;
 var endy = 0;
 
 $(document).ready(function(){
-	prepareForMobile();
-	newGame();
+	prepareForMobile();		//初始化样式
+	newGame();				//开始新游戏
 });
 
-//
+//设置4*4格子的样式
 function prepareForMobile(){
 	
-	if( documentWidth > 500 ){	//若屏宽大于500
-		gridContainerWidth = 500;
-		cellSideLength = 100 ;
-		cellSpace = 20 ;
+	if( documentWidth > 500 ){  	//若屏宽大于500
+		gridContainerWidth = 500;	//格子容器边长
+		cellSideLength = 100 ; 		//格子大小
+		cellSpace = 20 ;			//格子间距
 	}
 	
 	$("#grid-container").css("width",gridContainerWidth - 2*cellSpace);
@@ -72,16 +71,16 @@ function init(){
 function updateBoardView(){
 	$(".number-cell").remove();
 	for(var i=0; i<4;i++)
-		for(var j=0; j<4;j++){
+		for(var j=0; j<4;j++){	//给每个格子添加上数值
 			$("#grid-container").append('<div class="number-cell" id="number-cell-'+i+'-'+j+'"></div>');
 			var theNumberCell = $('#number-cell-'+i+'-'+j);
 			
-			if(board[i][j]==0){
+			if(board[i][j]==0){	//如果格子的数值为0则不显示
 				theNumberCell.css('width','0px');
 				theNumberCell.css('height','0px');
 				theNumberCell.css('top',getPosTop(i,j) + cellSideLength/2);
 				theNumberCell.css('left',getPosLeft(i,j) + cellSideLength/2);
-			}else{
+			}else{				//否则显示
 				theNumberCell.css('width',cellSideLength);
 				theNumberCell.css('height',cellSideLength);
 				theNumberCell.css('top',getPosTop(i,j));
@@ -97,14 +96,15 @@ function updateBoardView(){
 	$(".number-cell").css("font-size",0.6*cellSideLength+'px');
 }
 
+//在随机空白格子生成一个数字2或者4
 function generateOneNumber(){
 	//判断是否还有空间
-	if(noSpace(board))
+	if( noSpace(board) )
 		return false;
 	//随机一个位置
 	var randx = parseInt( Math.floor( Math.random()*4 ) );
 	var randy = parseInt( Math.floor( Math.random()*4 ) );
-	while(true){
+	while(true){//判断那个位置是否已经有数字了，如果有了则重新选位置，直到选到的位置没有数字为止
 		if(board[randx][randy]==0)
 			break;
 		randx = parseInt( Math.floor( Math.random()*4 ) );

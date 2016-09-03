@@ -44,8 +44,8 @@ function noSpace(board){
 	for(var i=0; i<4;i++)
 		for(var j=0; j<4;j++)
 			if(board[i][j]==0)
-				return false;
-	return true;
+				return false;//有空间
+	return true;//没有空间了
 }
 
 //判断是否还能移动
