@@ -115,6 +115,15 @@ function generateOneNumber(){
 	
 	//在随机位置显示随机数字
 	board[randx][randy] = randNumber;
+	/*
+	 * @author :FrankDian
+	 * @date :2016/09/03
+	 * @description：测试随机生成数字的位置
+	 */
+	console.log(randx);
+	console.log(randy);
+	
+	
 	showNumberWithAnimation(randx,randy,randNumber);
 
 	return true;
