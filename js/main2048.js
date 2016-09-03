@@ -1,5 +1,9 @@
+/**
+ * Created by FrankDian on 2016/08/01
+ */
+
 var board= new Array();
-var score=0;
+var score=0;  //分数
 var hasConflicted = new Array();
 
 //监控手机端的滑动
